@@ -1,0 +1,40 @@
+# Config for prepare_data.py, train.py, test.py, infer.py and benchmark.py.
+# Every key is required (utils.load_config fails loudly if one is missing).
+
+# ---------------------------------------------------------------- data
+raw_dir: data/raw            # raw videos, one folder per class (see README)
+frames_dir: data/frames      # written by prepare_data.py: one folder of JPGs per video
+splits_dir: data/splits      # written by prepare_data.py: train.csv, val.csv, test.csv
+classes: [NonFight, Fight]   # class folder names; list index = label (Fight = 1 = positive)
+frames_per_video: 32         # evenly spaced frames kept per video
+frame_short_side: 256        # frames are resized so their short side is this many pixels
+val_ratio: 0.1               # part of the training videos held out for validation
+test_ratio: 0.2              # only used when raw_dir has no train/val/test folders
+
+# ---------------------------------------------------------------- model
+arch: large                  # MobileNetV3 "large" or "small"
+n_segment: 8                 # frames per clip T
+shift_div: 8                 # 1/shift_div of the channels is shifted per direction
+causal_shift: false          # true = past-only shift (for online use)
+dropout: 0.5
+pretrained: true             # start from torchvision's ImageNet weights
+image_size: 224              # square crop fed to the model
+
+# ---------------------------------------------------------------- training
+# SGD + cosine schedule, like the official TSM training scripts (--lr_type cos)
+seed: 0
+batch_size: 8                # clips per batch
+num_workers: 4               # DataLoader worker processes
+epochs: 25
+lr: 0.01
+momentum: 0.9
+weight_decay: 0.0005
+amp: true                    # mixed precision; only takes effect on a GPU
+
+# ---------------------------------------------------------------- outputs
+checkpoint_dir: checkpoints  # last.pt and best.pt
+results_dir: results         # test.py metrics
+
+# ---------------------------------------------------------------- inference
+infer_clip_seconds: 5.0      # time span covered by one T-frame clip in infer.py
+                             # (match the length of the training videos; RWF-2000 = 5 s)
