@@ -35,11 +35,17 @@ All random splits are stratified by class and seeded.
 |---|---|---|
 | 1. Extract frames + make splits (once) | `python prepare_data.py` | `data/frames/`, `data/splits/{train,val,test}.csv` |
 | 2. Train | `python train.py` | `checkpoints/last.pt`, `checkpoints/best.pt` (best val accuracy) |
+| 2b. Or sweep hyperparameters | `python sweep.py --grid lr=0.003,0.01,0.03 weight_decay=0.0001,0.0005` | `runs/<name>/` per run, `runs/summary.csv` (sorted by val accuracy) |
 | 3. Test | `python test.py` | printed report + `results/test_metrics.json` |
 | 4. Live demo | `python infer.py --source video.mp4` or `--source 0` (webcam) | window with the label; `q` quits |
 | Speed | `python benchmark.py` | latency per clip, clips/s, frames/s |
 
 All settings live in `config.yaml`. Every script takes `--config other.yaml`.
+
+After a sweep, pick the best run by its **validation** score, then test only that one:
+`python test.py --checkpoint runs/<name>/best.pt`. Choosing by test score would make the
+test result optimistic. Re-running the same sweep command skips finished runs, so an
+interrupted sweep can be resumed.
 `test.py` and `infer.py` also take `--checkpoint path.pt` (default: `checkpoints/best.pt`).
 
 ## Files
@@ -50,6 +56,7 @@ All settings live in `config.yaml`. Every script takes `--config other.yaml`.
 | `dataset.py` | `VideoDataset`: TSN-style frame sampling, crop / flip, normalization |
 | `prepare_data.py` | Frame extraction and train / val / test splitting |
 | `train.py` | Training loop (SGD + cosine LR, mixed precision on GPU), checkpoints |
+| `sweep.py` | Hyperparameter sweep: one training run per combination, summary table |
 | `test.py` | Accuracy, precision / recall / F1 (positive class = `classes[1]`), confusion matrix |
 | `infer.py` | Sliding-window real-time inference on a video or webcam |
 | `benchmark.py` | Speed measurement |
@@ -66,6 +73,7 @@ python utils.py
 python dataset.py
 python prepare_data.py --self-test
 python train.py --self-test
+python sweep.py --self-test
 python test.py --self-test
 python infer.py --self-test
 python benchmark.py --self-test
