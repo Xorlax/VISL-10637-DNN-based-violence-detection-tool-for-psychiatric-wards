@@ -21,8 +21,8 @@ import time
 from collections import deque
 from pathlib import Path
 
-import cv2
-import torch
+import cv2  # type: ignore[import-not-found,import-untyped]
+import torch  # type: ignore[import-not-found,import-untyped]
 
 from dataset import transform_clip
 from prepare_data import resize_short_side

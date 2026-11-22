@@ -17,10 +17,10 @@ import csv
 import tempfile
 from pathlib import Path
 
-import numpy as np
-import torch
-from torch.utils.data import Dataset
-from torchvision.io import ImageReadMode, read_image
+import numpy as np  # type: ignore[import-not-found,import-untyped]
+import torch  # type: ignore[import-not-found,import-untyped]
+from torch.utils.data import Dataset  # type: ignore[import-not-found,import-untyped]
+from torchvision.io import ImageReadMode, read_image  # type: ignore[import-not-found,import-untyped]
 
 from utils import FRAME_NAME_FORMAT, SPLIT_CSV_HEADER, make_dummy_dataset, set_seed
 

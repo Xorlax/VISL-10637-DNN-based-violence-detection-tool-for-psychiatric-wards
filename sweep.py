@@ -23,7 +23,7 @@ import json
 import tempfile
 from pathlib import Path
 
-import yaml
+import yaml  # type: ignore[import-not-found,import-untyped]
 
 from train import train
 from utils import load_config, make_dummy_dataset

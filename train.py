@@ -20,9 +20,9 @@ import math
 import tempfile
 from pathlib import Path
 
-import torch
-from torch import nn
-from torch.utils.data import DataLoader
+import torch  # type: ignore[import-not-found,import-untyped]
+from torch import nn  # type: ignore[import-not-found,import-untyped]
+from torch.utils.data import DataLoader  # type: ignore[import-not-found,import-untyped]
 
 from dataset import VideoDataset
 from utils import (build_model, compute_metrics, evaluate, get_device, load_checkpoint,

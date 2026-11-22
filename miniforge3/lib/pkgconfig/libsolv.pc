@@ -1,0 +1,8 @@
+libdir=/ugproj/visl-prj10637/miniforge3/lib
+includedir=/ugproj/visl-prj10637/miniforge3/include
+
+Name: libsolv
+Description: Library for solving packages
+Version: 0.7.39
+Libs: -L${libdir} -lsolv
+Cflags: -I${includedir}

@@ -26,8 +26,8 @@ All tensors are float (float32 by default, or float16 under autocast).
 from functools import partial
 from typing import Callable, List, Optional
 
-import torch
-from torch import nn, Tensor
+import torch  # type: ignore[reportMissingImports]
+from torch import nn, Tensor  # type: ignore[reportMissingImports]
 
 
 # ---------------------------------------------------------------------------
@@ -624,12 +624,18 @@ def load_imagenet_weights(model: MobileNetV3, arch: str = "large", width_mult: f
     if width_mult != 1.0:
         raise ValueError(f"torchvision only provides pretrained weights for width_mult=1.0, "
                          f"got {width_mult}")
-    from torchvision.models import (mobilenet_v3_large, mobilenet_v3_small,
-                                    MobileNet_V3_Large_Weights, MobileNet_V3_Small_Weights)
+    # Import lazily so torchvision remains an optional runtime dependency and
+    # static analyzers do not need to resolve it when checking this module.
+    from importlib import import_module
+    models = import_module("torchvision.models")
     if arch == "large":
-        tv = mobilenet_v3_large(weights=MobileNet_V3_Large_Weights.IMAGENET1K_V1)
+        tv = models.mobilenet_v3_large(
+            weights=models.MobileNet_V3_Large_Weights.IMAGENET1K_V1
+        )
     else:
-        tv = mobilenet_v3_small(weights=MobileNet_V3_Small_Weights.IMAGENET1K_V1)
+        tv = models.mobilenet_v3_small(
+            weights=models.MobileNet_V3_Small_Weights.IMAGENET1K_V1
+        )
     model.load_state_dict(tv.state_dict(), strict=True)  # TSM has no params -> exact match
     return model
 
@@ -669,7 +675,7 @@ if __name__ == "__main__":
 
     # 4) torchvision compatibility (no download needed): keys load 1:1, and without TSM
     #    our model gives exactly torchvision's output for the same weights
-    from torchvision.models import mobilenet_v3_large, mobilenet_v3_small
+    from torchvision.models import mobilenet_v3_large, mobilenet_v3_small  # type: ignore[reportMissingImports]
     x = torch.randn(2, 3, 64, 64)
     for arch, tv_fn in [("large", mobilenet_v3_large), ("small", mobilenet_v3_small)]:
         tv = tv_fn(weights=None).eval()

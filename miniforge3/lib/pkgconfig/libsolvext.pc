@@ -1,0 +1,9 @@
+libdir=/ugproj/visl-prj10637/miniforge3/lib
+includedir=/ugproj/visl-prj10637/miniforge3/include
+
+Name: libsolvext
+Description: Library for reading repositories
+Version: 0.7.39
+Requires: libsolv
+Libs: -L${libdir} -lsolvext
+Cflags: -I${includedir}

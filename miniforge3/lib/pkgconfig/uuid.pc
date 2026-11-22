@@ -1,0 +1,11 @@
+prefix=/ugproj/visl-prj10637/miniforge3
+exec_prefix=/ugproj/visl-prj10637/miniforge3
+libdir=/ugproj/visl-prj10637/miniforge3/lib
+includedir=/ugproj/visl-prj10637/miniforge3/include
+
+Name: uuid
+Description: Universally unique id library
+Version: 2.42.1
+Cflags: -I${includedir}/uuid
+Libs.private:  -lpthread
+Libs: -L${libdir} -luuid

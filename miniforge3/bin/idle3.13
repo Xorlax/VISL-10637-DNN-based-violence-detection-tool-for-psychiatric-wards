@@ -1,0 +1,5 @@
+#!/ugproj/visl-prj10637/miniforge3/bin/python3.13
+
+from idlelib.pyshell import main
+if __name__ == '__main__':
+    main()

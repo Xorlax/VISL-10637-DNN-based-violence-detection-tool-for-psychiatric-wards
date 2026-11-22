@@ -13,7 +13,7 @@ import argparse
 import statistics
 import time
 
-import torch
+import torch  # type: ignore[import-not-found,import-untyped]
 
 from utils import build_model, get_device, load_config, set_seed
 

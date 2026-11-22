@@ -29,8 +29,8 @@ import random
 import tempfile
 from pathlib import Path
 
-import cv2
-import numpy as np
+import cv2  # type: ignore[import-not-found,import-untyped]
+import numpy as np  # type: ignore[import-not-found,import-untyped]
 
 from utils import FRAME_NAME_FORMAT, load_config, write_dummy_video, write_split_csv
 

@@ -10,12 +10,12 @@ import random
 import tempfile
 from pathlib import Path
 
-import cv2
-import numpy as np
-import torch
-import yaml
-from PIL import Image
-from torch import nn
+import cv2  # type: ignore[import-not-found,import-untyped]
+import numpy as np  # type: ignore[import-not-found,import-untyped]
+import torch  # type: ignore[import-not-found,import-untyped]
+import yaml  # type: ignore[import-not-found,import-untyped]
+from PIL import Image  # type: ignore[import-not-found,import-untyped]
+from torch import nn  # type: ignore[import-not-found,import-untyped]
 
 from tsm_mobilenetv3 import TSMMobileNetV3
 
